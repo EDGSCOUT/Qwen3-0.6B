@@ -6,7 +6,7 @@
 - `scripts/train_deepspeed.py`：原生 DeepSpeed SFT 训练循环
 - `scripts/pretrain_deepspeed.py`：原生 DeepSpeed 预训练/继续预训练循环
 
-当前目录已经包含模型、样例数据、训练脚本、推理脚本、评测脚本、DeepSpeed 配置，以及 `transformers` / `deepspeed` 的源码跳转目录。
+当前目录已经包含模型、样例数据、训练脚本、推理脚本、评测脚本、DeepSpeed 配置，以及 `transformers` / `accelerate` / `deepspeed` 的源码跳转目录。
 
 官方模型仓库：<https://huggingface.co/Qwen/Qwen3-0.6B>
 
@@ -36,6 +36,7 @@
 │   ├── train.py
 │   └── train_deepspeed.py
 ├── third_party/
+│   ├── accelerate-1.13.0/
 │   ├── deepspeed-0.14.5/
 │   └── transformers-4.56.2/
 ├── requirements.txt
@@ -51,6 +52,7 @@
 - `configs/ds_zero2.json`：常用 ZeRO-2 配置
 - `configs/ds_zero3_offload.json`：显存紧张时可用的 ZeRO-3 + CPU offload 配置
 - `third_party/transformers-4.56.2`：用于 IDE 跳转的 Transformers 源码
+- `third_party/accelerate-1.13.0`：用于 IDE 跳转的 Accelerate 源码
 - `third_party/deepspeed-0.14.5`：用于 IDE 跳转的 DeepSpeed 源码
 
 ## 环境要求
@@ -86,6 +88,14 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
+
+### Accelerate 使用位置
+
+本工程确实会用到 `accelerate`：
+
+- `scripts/train.py` 使用 Hugging Face `Trainer` + DeepSpeed，`Trainer` 内部会通过 `accelerate` 管理设备、分布式状态和 DeepSpeed 集成
+- `scripts/infer.py` 与 `scripts/evaluate.py` 会检测 `accelerate` 是否可用；只有在 CUDA 环境下才启用 `device_map="auto"`
+- `scripts/train_deepspeed.py` 与 `scripts/pretrain_deepspeed.py` 是原生 DeepSpeed 训练循环，不直接 `import accelerate`
 
 如果你使用 conda，也可以：
 
@@ -624,7 +634,7 @@ DeepSpeed 训练脚本内部的验证 loss 会按有效 token 数加权统计，
 
 ## 源码跳转
 
-本工程已经把 `transformers` 和 `deepspeed` 源码下载到 `third_party`，并配置了 VS Code/Pylance 路径：
+本工程已经把 `transformers`、`accelerate` 和 `deepspeed` 源码下载到 `third_party`，并配置了 VS Code/Pylance 路径：
 
 - `.vscode/settings.json`
 - `pyrightconfig.json`
@@ -633,6 +643,9 @@ DeepSpeed 训练脚本内部的验证 loss 会按有效 token 数加权统计，
 
 - `third_party/transformers-4.56.2/src/transformers/models/qwen3/modeling_qwen3.py`
 - `third_party/transformers-4.56.2/src/transformers/models/auto/modeling_auto.py`
+- `third_party/accelerate-1.13.0/src/accelerate/accelerator.py`
+- `third_party/accelerate-1.13.0/src/accelerate/big_modeling.py`
+- `third_party/accelerate-1.13.0/src/accelerate/utils/deepspeed.py`
 - `third_party/deepspeed-0.14.5/deepspeed/__init__.py`
 - `third_party/deepspeed-0.14.5/deepspeed/runtime/engine.py`
 - `third_party/deepspeed-0.14.5/deepspeed/runtime/zero/stage_1_and_2.py`
