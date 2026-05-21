@@ -1,0 +1,7 @@
+{"id":"train-001","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"什么是梯度累积？"},{"role":"assistant","content":"梯度累积是在多次小批量前向和反向传播后，再执行一次优化器更新。它可以用较小显存模拟更大的全局 batch size，但会增加一次参数更新所需的时间。"}]}
+{"id":"train-002","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"DeepSpeed ZeRO 的核心作用是什么？"},{"role":"assistant","content":"DeepSpeed ZeRO 会把优化器状态、梯度和参数按阶段切分到多个 GPU 上，减少每张卡的显存占用。ZeRO-2 主要切分优化器状态和梯度，ZeRO-3 进一步切分模型参数。"}]}
+{"id":"train-003","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"用一句话说明 Qwen3-0.6B 适合什么场景。"},{"role":"assistant","content":"Qwen3-0.6B 适合在资源有限的环境中做轻量级对话、指令微调、功能验证和端侧推理实验。"}]}
+{"id":"train-004","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"训练大模型前为什么要设置 tokenizer 的 pad_token？"},{"role":"assistant","content":"批量训练时不同样本长度需要 padding；如果 tokenizer 没有 pad_token，通常会把 pad_token 设置为 eos_token，避免 padding 阶段报错。"}]}
+{"id":"train-005","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"bf16 和 fp16 的区别是什么？"},{"role":"assistant","content":"bf16 的指数位更多，数值范围更大，训练时通常比 fp16 更稳定；fp16 精度更细但范围更小，某些任务中更容易出现溢出，需要 loss scaling。"}]}
+{"id":"train-006","instruction":"给出一个最小的模型微调检查清单。","input":"目标是用 transformers 和 DeepSpeed 微调一个小模型。","output":"检查清单：1. 确认模型和 tokenizer 能本地加载；2. 检查 JSONL 数据字段和样本数量；3. 先用少量 step 跑通训练；4. 观察 loss、显存和保存目录；5. 用验证集和少量人工样本评测输出质量。"}
+

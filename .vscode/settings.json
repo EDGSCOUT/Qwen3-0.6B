@@ -1,0 +1,10 @@
+{
+  "python.analysis.extraPaths": [
+    "./third_party/transformers-4.56.2/src",
+    "./third_party/deepspeed-0.14.5"
+  ],
+  "python.autoComplete.extraPaths": [
+    "./third_party/transformers-4.56.2/src",
+    "./third_party/deepspeed-0.14.5"
+  ]
+}

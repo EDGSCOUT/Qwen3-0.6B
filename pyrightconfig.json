@@ -1,0 +1,17 @@
+{
+  "extraPaths": [
+    "./third_party/transformers-4.56.2/src",
+    "./third_party/deepspeed-0.14.5"
+  ],
+  "include": [
+    "scripts",
+    "third_party/transformers-4.56.2/src",
+    "third_party/deepspeed-0.14.5/deepspeed"
+  ],
+  "exclude": [
+    "**/__pycache__",
+    "models",
+    "outputs",
+    "third_party/_downloads"
+  ]
+}

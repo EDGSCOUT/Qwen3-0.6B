@@ -1,0 +1,3 @@
+{"id":"valid-001","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"为什么微调时常用 gradient_checkpointing？"},{"role":"assistant","content":"gradient_checkpointing 会在反向传播时重新计算部分激活，从而减少显存占用。代价是训练速度会下降一些。"}]}
+{"id":"valid-002","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"ZeRO-3 offload 适合什么时候使用？"},{"role":"assistant","content":"当 GPU 显存不足以容纳模型参数、梯度或优化器状态时，可以使用 ZeRO-3 offload 把部分状态放到 CPU 内存中，但训练速度会变慢。"}]}
+

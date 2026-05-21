@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+third_party/_downloads/
+
+outputs/*
+!outputs/.gitkeep
+
+models/Qwen3-0.6B/*
+!models/Qwen3-0.6B/.gitkeep

@@ -1,0 +1,10 @@
+hjson
+ninja
+numpy
+nvidia-ml-py
+packaging>=20.0
+psutil
+py-cpuinfo
+pydantic
+torch
+tqdm

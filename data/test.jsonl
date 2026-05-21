@@ -1,0 +1,3 @@
+{"id":"test-001","messages":[{"role":"system","content":"你是一个简洁、可靠的中文技术助手。"},{"role":"user","content":"用两句话解释 DeepSpeed 的价值。"},{"role":"assistant","content":"DeepSpeed 可以通过 ZeRO、混合精度和通信优化降低大模型训练的显存压力。它让单机多卡或多机训练更容易扩展。"}]}
+{"id":"test-002","instruction":"说明推理时 max_new_tokens 的含义。","input":"","output":"max_new_tokens 表示模型在已有输入之后最多生成多少个新 token。它限制输出长度，能帮助控制延迟和显存占用。"}
+
