@@ -160,7 +160,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--gradient_checkpointing", action="store_true")
     parser.add_argument("--enable_thinking", "--enable-thinking", dest="enable_thinking", action="store_true")
     parser.add_argument("--response_only_loss", action=argparse.BooleanOptionalAction, default=True)
-    parser.add_argument("--skip_empty_labels", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--trust_remote_code", action="store_true")
     parser.add_argument("--resume_from_checkpoint", default=None)
 
@@ -490,7 +489,6 @@ def main() -> None:
         args.model_max_length,
         args.enable_thinking,
         args.response_only_loss,
-        args.skip_empty_labels,
     )
     train_loader, train_sampler = create_dataloader(
         train_dataset,
@@ -508,7 +506,6 @@ def main() -> None:
             args.model_max_length,
             args.enable_thinking,
             args.response_only_loss,
-            args.skip_empty_labels,
         )
         eval_loader, _ = create_dataloader(
             eval_dataset,

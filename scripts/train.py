@@ -162,6 +162,7 @@ def resolve_train_dtype(training_args: TrainingArguments) -> torch.dtype | str:
 
 def main() -> None:
     parser = HfArgumentParser((ModelDataArguments, TrainingArguments))
+    # https://chatgpt.com/s/t_6a0ec47841408191b313477068e3d30a
     model_args, training_args = parser.parse_args_into_dataclasses()
 
     tokenizer = AutoTokenizer.from_pretrained(
@@ -169,6 +170,14 @@ def main() -> None:
         use_fast=True,
         trust_remote_code=model_args.trust_remote_code,
     )
+    # tokenizer 的核心作用是把文本和 token id 互相转换
+    # 它通常会读取这些文件：
+    # tokenizer.json
+    # tokenizer_config.json
+    # special_tokens_map.json
+    # vocab.json / merges.txt / vocab.txt / tokenizer.model 等
+
+
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
@@ -179,6 +188,40 @@ def main() -> None:
         torch_dtype=resolve_train_dtype(training_args),
         trust_remote_code=model_args.trust_remote_code,
     )
+    # 一般里面会有这些文件
+    # models/Qwen3-0.6B/
+    # ├── config.json
+            # {
+            # "model_type": "qwen3",
+            # "architectures": [
+            #     "Qwen3ForCausalLM"
+            # ]
+            # }
+
+    # 会跳转到/home/xxx/miniconda3/envs/your_env/lib/python3.10/site-packages/transformers/__init__.py
+    # 代码在/home/xxx/miniconda3/envs/your_env/lib/python3.10/site-packages/transformers/models/qwen2/
+            # 大概的映射流程是
+            # config.json
+            # ↓
+            # model_type = "qwen3"
+            # ↓
+            # AutoConfig.from_pretrained(...)
+            # ↓
+            # Qwen3Config
+            # ↓
+            # AutoModelForCausalLM 的 causal-lm 映射表
+            # ↓
+            # Qwen3ForCausalLM
+            # ↓
+            # transformers.models.qwen3.modeling_qwen3.Qwen3ForCausalLM
+
+    # ├── tokenizer.json
+    # ├── tokenizer_config.json
+    # ├── model.safetensors
+    # ├── model-00001-of-000xx.safetensors
+    # ├── model-00002-of-000xx.safetensors
+    # └── ...
+
     if training_args.gradient_checkpointing:
         model.config.use_cache = False
 
